@@ -1,0 +1,155 @@
+/* App.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap'); /* Importar fuente Merriweather */
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Merriweather', serif; /* Aplicamos la fuente a todo el contenido de la app */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Estilos globales para la fuente y el color de texto */
+body {
+  background-color: #fae1dd; /* Fondo suave que armoniza con el color pastel */
+}
+
+/* Formulario */
+form {
+  background-color: #e2d4b7; /* Fondo cálido para formularios */
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Colores de botones */
+button {
+  font-family: 'Merriweather', serif;
+  background-color: #ffcc00; /* Un amarillo cálido */
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #e6b800;
+}
+
+/* Estilo para la tabla */
+.table {
+  background-color: #f0e8c9; /* Un tono de fondo suave para la tabla */
+}
+
+.table th, .table td {
+  font-family: 'Merriweather', serif;
+  color: #2c3e50;
+  border: 1px solid #ddd;
+}
+
+/* Cabecera de la tabla */
+.table thead {
+  background-color: #ffcc00; /* Color de fondo de la cabecera */
+  color: white;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Fondo alternado para las filas */
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #e9ecef;
+}
+
+.table tbody tr:hover {
+  background-color: #d9d9d9; /* Resaltar filas al pasar el mouse */
+}
+
+/* ==== Estilos del catálogo de productos ==== */
+.catalogo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+}
+
+.product-content {
+  padding: 14px;
+  flex: 2;
+}
+
+.product-image {
+  width: 120px;
+  height: 100%;
+  object-fit: cover;
+  border-left: 1px solid #dee2e6;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 0.75rem;
+}
+
+/* Fondo solo para página de soporte */
+.support-page {
+  background-color: #ffffff !important;
+}
+.form-soporte {
+  background-color: #ffffff !important;
+}
+
+

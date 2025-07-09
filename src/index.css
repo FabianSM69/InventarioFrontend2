@@ -1,0 +1,146 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+/* Centrar las pestañas */
+.nav-tabs {
+  justify-content: center;
+  border-bottom: 2px solid #ffc107; /* Amarillo pastel */
+}
+
+.nav-tabs .nav-link {
+  background-color: #fff8f0;
+  color: #343a40;
+  border-radius: 12px 12px 0 0;
+  margin: 0 12px;
+  padding: 14px 26px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: 2px solid transparent;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  background-color: #ffe0a8;
+  transform: translateY(-2px);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #ffecb3;
+  color: #212529;
+  border: 1px solid #ffc107;
+  border-bottom-color: transparent;
+}
+
+/* Tarjetas de producto */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fffdf8;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card-title {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.card img {
+  border-left: 1px solid #ddd;
+}
+
+/* Inputs y formularios */
+input.form-control, textarea.form-control {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+input:focus, textarea:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 4px #ffd54f;
+}
+
+/* Botón registrar */
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffb300;
+  font-weight: bold;
+}
+
+.btn-warning:hover {
+  background-color: #ffb300;
+}
+
+/* Espaciado general */
+.container-fluid .flex-grow-1 {
+  padding-top: 20px;
+}

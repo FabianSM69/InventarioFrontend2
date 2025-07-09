@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "VERCEL_PREFER_PNPM": "1"
+    }
+  }
+}
