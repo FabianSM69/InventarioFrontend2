@@ -71,7 +71,7 @@ function Login() {
   return (
     <div className="login-page">
       {/* Logo que hace de home-button */}
-      <Link to="/" className="login-logo">
+      <Link to="/home" className="login-logo">
         <img src="/imagenes/Logo.png" alt="Home" />
       </Link>
 

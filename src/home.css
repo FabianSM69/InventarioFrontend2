@@ -1,0 +1,169 @@
+:root {
+  /* Colores primarios */
+  --color-primary:        #4F93FF;
+  --color-primary-2:      #285CFF;
+  --color-primary-dark:   #1F4BC8;
+
+  /* Colores secundarios / acentos */
+  --color-accent:         #FFC700;
+  --color-accent-dark:    #E0A800;
+
+  /* Neutros */
+  --color-bg:             #F5F7FA;
+  --color-card-bg:        #FFFFFF;
+  --color-text:           #333333;
+  --color-text-secondary: #555555;
+
+  /* Feedback */
+  --color-success:        #28A745;
+  --color-warning:        #FFC107;
+  --color-error:          #DC3545;
+
+  /* Otros */
+  --radius:               8px;
+  --shadow-light:         0 2px 8px rgba(0,0,0,0.1);
+  --font-heading:         'Merriweather', serif;
+}
+
+/* Reset y scroll suave */
+html { scroll-behavior: smooth; }
+
+/* ▶️ Navbar */
+.home-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  padding: 0 2rem;
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-light);
+  z-index: 100;
+}
+.home-page { padding-top: 60px; }
+
+.home-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0; padding: 0;
+  list-style: none;
+  width: 100%;
+}
+.home-nav a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  position: relative;
+  padding: 0.5rem 0;
+}
+.home-nav a:hover,
+.home-nav a.active {
+  color: var(--color-primary);
+}
+.home-nav a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 3px;
+  background: var(--color-primary-dark);
+  border-radius: 2px;
+}
+
+/* Botón Ingresar */
+.home-nav a.ingreso {
+  margin-left: auto;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+}
+
+/* ▶️ Secciones genéricas */
+.home-section {
+  padding: 4rem 1rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.home-section.card {
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-light);
+  margin: 3rem auto;
+  padding: 2rem;
+}
+
+/* Texto dentro de tarjetas */
+.home-section.card h1,
+.home-section.card h2,
+.home-section.card p {
+  color: var(--color-primary-dark);
+}
+
+/* ▶️ Hero */
+#hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-2));
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+#hero h1 { font-size: 3rem; margin-bottom: 1rem; font-family: var(--font-heading); }
+#hero p { font-size: 1.25rem; max-width: 600px; text-align: center; }
+
+/* ▶️ Animaciones */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeUp 0.6s ease-out forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ▶️ Formulario Contacto */
+.contact-form {
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.contact-form input,
+.contact-form textarea {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: var(--radius);
+  transition: border-color 0.3s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--color-primary);
+}
+
+/* Botón Enviar */
+.btn.envio {
+  background: var(--color-accent);
+  color: var(--color-text);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn.envio:hover {
+  background: var(--color-accent-dark);
+}
+
+/* ▶️ Footer */
+.home-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
