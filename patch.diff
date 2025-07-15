@@ -1,0 +1,149 @@
+--- src/pages/RegisterProduct.jsx
++++ src/pages/RegisterProduct.jsx
+@@ -1,6 +1,6 @@
+ import React, { useState, useEffect } from "react";
+ import { Link } from "react-router-dom";
+-import "../App.css";
++import "../App.css";
+ import axios from "../api";
+ 
+ function RegisterProduct() {
+@@ -12,13 +12,6 @@ function RegisterProduct() {
+   const [productos, setProductos] = useState([]);
+   const [busqueda, setBusqueda] = useState("");
+   const [role, setRole] = useState("");
+-
+-  // Formularios de entrada
+-  const [nombre, setNombre] = useState("");
+-  const [cantidad_total, setCantidadTotal] = useState("");
+-  const [cantidad_entrada, setCantidadEntrada] = useState("");
+-  const [cantidad_devuelta_cliente, setCantidadDevueltaCliente] = useState("");
+-  const [precio_unitario, setPrecioUnitario] = useState("");
+-  const [precio_total, setPrecioTotal] = useState("");
++  // Formularios de entrada
++  const [nombre, setNombre] = useState("");
++  const [cantidad_total, setCantidadTotal] = useState("");
++  const [precio_unitario, setPrecioUnitario] = useState("");
++  const [precio_total, setPrecioTotal] = useState("");
+   const [imagen, setImagen] = useState(null);
+ 
+   // Modales y estados auxiliares
+@@ -72,6 +65,17 @@ function RegisterProduct() {
+   const handleImageChange = (e) => { /* ... tu código ... */ };
+ 
+   // --- Nuevo: recalcular precio_total automáticamente ---
++  useEffect(() => {
++    const c = parseFloat(cantidad_total) || 0;
++    const u = parseFloat(precio_unitario) || 0;
++    setPrecioTotal((c * u).toFixed(2));
++  }, [cantidad_total, precio_unitario]);
++
++  // -----------------------------------------------
++
+   const handleRegisterEntrada = async (e) => {
+     e.preventDefault();
+-    if (!nombre || !cantidad_total || !cantidad_entrada || !precio_unitario) {
++    if (!nombre || !cantidad_total || !precio_unitario) {
+       setError("Por favor, completa todos los campos obligatorios.");
+       return;
+     }
+@@ -80,15 +84,11 @@ function RegisterProduct() {
+     try {
+       await axios.post("/registerproduct", {
+         nombre,
+-        cantidad_total: parseInt(cantidad_total),
+-        cantidad_entrada: parseInt(cantidad_entrada),
+-        cantidad_devuelta_cliente: parseInt(cantidad_devuelta_cliente || 0),
++        cantidad_total: parseInt(cantidad_total),
+         precio_unitario: parseFloat(precio_unitario),
+-        precio_total: parseFloat(precio_total) || parseFloat(precio_unitario) * parseInt(cantidad_total),
++        precio_total: parseFloat(precio_total),
+         imagen,
+       });
+       alert("Producto registrado exitosamente");
+       // ...
+     } catch (err) {
+       setError("Error al registrar producto");
+@@ -160,34 +160,6 @@ function RegisterProduct() {
+             <div className="mb-2">
+               <label className="form-label">Nombre</label>
+               <input
+-                type="text"
+-                className="form-control"
+-                value={nombre}
+-                onChange={(e) => setNombre(e.target.value)}
+-              />
+-            </div>
+-            <div className="mb-2">
+-              <label className="form-label">Cantidad Total</label>
+-              <input
+-                type="number"
+-                className="form-control"
+-                value={cantidad_total}
+-                onChange={(e) => setCantidadTotal(e.target.value)}
+-              />
+-            </div>
+-            <div className="mb-2">
+-              <label className="form-label">Cantidad Entrada</label>
+-              <input
+-                type="number"
+-                className="form-control"
+-                value={cantidad_entrada}
+-                onChange={(e) => setCantidadEntrada(e.target.value)}
+-              />
+-            </div>
+-            <div className="mb-2">
+-              <label className="form-label">
+-                Cantidad Devuelta Cliente
+-              </label>
+-              <input
+-                type="number"
+-                className="form-control"
+-                value={cantidad_devuelta_cliente}
+-                onChange={(e) => setCantidadDevueltaCliente(e.target.value)}
+-              />
+-            </div>
++                type="text"
++                className="form-control"
++                value={nombre}
++                onChange={(e) => setNombre(e.target.value)}
++              />
++            </div>
++            <div className="mb-2">
++              <label className="form-label">Cantidad Total</label>
++              <input
++                type="number"
++                className="form-control"
++                value={cantidad_total}
++                onChange={(e) => setCantidadTotal(e.target.value)}
++              />
++            </div>
+             <div className="mb-2">
+               <label className="form-label">Precio Unitario</label>
+               <input
+@@ -200,12 +172,6 @@ function RegisterProduct() {
+                 type="file"
+                 accept="image/*"
+                 className="form-control"
+-                onChange={(e) => setImagen(reader.result)}
++                onChange={handleImageChange}
+               />
+               {imagen && (
+                 <img
+                   src={imagen}
+                   alt="preview"
+                   className="mt-2"
+                   style={{ width: "100%" }}
+                 />
+               )}
+             </div>
+           </div>
+@@ -223,7 +189,7 @@ function RegisterProduct() {
+           <div className="modal-footer">
+             <button
+               type="submit"
+-              className="btn btn-primary"
++              className="btn btn-primary"
+               disabled={loading}
+             >
+               {loading ? "Cargando..." : "Registrar"}

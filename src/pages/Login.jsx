@@ -1,112 +1,138 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from '../api';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// src/pages/Login.jsx
+
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../api";
+import "../App.css"; // tus estilos generales, incluyendo .login-page, .login-visual, .login-panel, etc.
+
+const carouselImages = [
+  "/imagenes/Login1.webp",
+  "/imagenes/login2.jpg",
+  "/imagenes/login2.avif",
+];
+
 function Login() {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState("");
+  const [loginValue, setLoginValue] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // índice para el carrusel
+  const [idx, setIdx] = useState(0);
+
+  // auto-rotación
+  useEffect(() => {
+    const iv = setInterval(() => {
+      setIdx(i => (i + 1) % carouselImages.length);
+    }, 5000);
+    return () => clearInterval(iv);
+  }, []);
+
+  // avanzar/retroceder manualmente
+  const prevSlide = () =>
+    setIdx(i => (i - 1 + carouselImages.length) % carouselImages.length);
+  const nextSlide = () =>
+    setIdx(i => (i + 1) % carouselImages.length);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    if (!usuario.trim()) {
-      setError("Por favor, ingresa tu usuario.");
-      return;
+    if (!loginValue.trim()) {
+      return setError("Por favor, ingresa tu usuario o correo.");
     }
     if (!contrasena.trim()) {
-      setError("Por favor, ingresa tu contraseña.");
-      return;
+      return setError("Por favor, ingresa tu contraseña.");
     }
 
     setLoading(true);
     setError("");
-
     try {
-      const response = await axios.post("/login", {
-        username: usuario,
+      const { data } = await axios.post("/login", {
+        login: loginValue,
         password: contrasena,
       });
-
-      if (response.data.token && response.data.role) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("role", response.data.role);
-
-        // Redirigir siempre a /dashboard
-        navigate("/dashboard");
-      } else {
-        setError("Error al recibir datos del servidor.");
-      }
+      const { token, role, user } = data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/dashboard");
     } catch (err) {
       if (err.response?.status === 401) {
         setError("Usuario o contraseña incorrectos.");
-      } else if (err.message === "Network Error") {
-        setError("No se pudo conectar al servidor. Verifica tu conexión a internet.");
       } else {
         setError("Error al iniciar sesión. Inténtalo de nuevo más tarde.");
       }
-      console.error('Error al iniciar sesión:', err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ background: 'url("/imagenes/fondo.jpg") no-repeat center center fixed', backgroundSize: 'cover', minHeight: '100vh' }}>
-      <div className="card shadow-lg p-4" style={{ width: '400px', borderRadius: '15px', backgroundColor: '#ffffff' }}>
-        <h2 className="text-center mb-4 text-primary">Iniciar Sesión</h2>
+    <div className="login-page">
+      {/* Logo que hace de home-button */}
+      <Link to="/" className="login-logo">
+        <img src="/imagenes/Logo.png" alt="Home" />
+      </Link>
 
-        <div className="text-center mb-4">
-          <img 
-            src="/imagenes/icono.png" 
-            alt="User Icon" 
-            className="rounded-circle" 
-            style={{ width: '80px', height: '80px', objectFit: 'cover' }}
-          />
-        </div>
+      {/* Columna izquierda: carrusel de imágenes */}
+      <div className="login-visual">
+        <span className="arrow prev" onClick={prevSlide}>‹</span>
+        <img src={carouselImages[idx]} alt={`Slide ${idx + 1}`} />
+        <div className="overlay" />
+        <span className="arrow next" onClick={nextSlide}>›</span>
 
-        {error && <div className="alert alert-danger">{error}</div>}
-
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label className="form-label">Usuario</label>
-            <input
-              type="text"
-              className="form-control shadow-sm"
-              placeholder="Ingresa tu usuario"
-              value={usuario}
-              onChange={(e) => setUsuario(e.target.value)} 
-              required
+        <div className="dots">
+          {carouselImages.map((_, i) => (
+            <div
+              key={i}
+              className={`dot ${i === idx ? "active" : ""}`}
+              onClick={() => setIdx(i)}
             />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control shadow-sm"
-              placeholder="Ingresa tu contraseña"
-              value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)} 
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary w-100 py-2 mt-3 shadow-sm" disabled={loading}>
-            {loading ? "Cargando..." : "Entrar"}
-          </button>
-        </form>
-
-        <div className="mt-3 text-center">
-          <a href="#" className="text-decoration-none text-muted">¿Olvidaste tu contraseña?</a>
+          ))}
         </div>
+      </div>
 
-        <div className="mt-3 text-center">
-          <button 
-            onClick={() => navigate('/Register')} 
-            className="btn btn-link text-muted">
-            ¿No tienes una cuenta? Regístrate aquí
-          </button>
+      {/* Columna derecha: formulario de login */}
+      <div className="login-panel">
+        <div className="login-card">
+          <h1 className="login-title">Iniciar Sesión</h1>
+
+          {error && <div className="login-error">{error}</div>}
+
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="input-group">
+              <span className="input-icon">👤</span>
+              <input
+                type="text"
+                placeholder="Usuario o correo"
+                value={loginValue}
+                onChange={e => setLoginValue(e.target.value)}
+                disabled={loading}
+              />
+            </div>
+            <div className="input-group">
+              <span className="input-icon">🔒</span>
+              <input
+                type="password"
+                placeholder="Contraseña"
+                value={contrasena}
+                onChange={e => setContrasena(e.target.value)}
+                disabled={loading}
+              />
+            </div>
+            <button className="btn-login" type="submit" disabled={loading}>
+              {loading ? "Cargando..." : "Entrar"}
+            </button>
+          </form>
+
+          <div className="login-links">
+            <a onClick={() => navigate("/forgot-password")}>
+              ¿Olvidaste tu contraseña?
+            </a>
+            <span> | </span>
+            <a onClick={() => navigate("/register")}>Regístrate</a>
+          </div>
         </div>
       </div>
     </div>
